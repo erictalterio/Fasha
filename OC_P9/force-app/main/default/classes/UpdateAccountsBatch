@@ -1,0 +1,19 @@
+global class UpdateAccountsBatch implements Database.Batchable<sObject>
+{
+    global Database.QueryLocator start(Database.BatchableContext bc)
+    {
+        //Query only accounts that have at least one order with Status 'Ordered
+        return GetAccountOrdersUtility.getAccountQueryLocator();
+    }
+​
+    global void execute(Database.BatchableContext bc, List<Account> scope)
+    {
+        //Utility class that calculates Turnover (Gross Revenue) and makes the class shorter
+        ChiffreAffaireCalculator.calculateChiffreAffaire(scope);
+    }
+​
+    global void finish(Database.BatchableContext bc)
+    {
+        System.debug('Batch job has finished.');
+    }
+}
