@@ -1,19 +1,41 @@
-global class UpdateAccountsBatch implements Database.Batchable<sObject>
-{
-    global Database.QueryLocator start(Database.BatchableContext bc)
-    {
-        //Query only accounts that have at least one order with Status 'Ordered
+/**
+ * This batch class is designed to update the turnover (Chiffre d'affaire) for Accounts
+ * based on the orders associated with them. It delegates the query and calculation
+ * logic to utility classes.
+ */
+global class UpdateAccountsBatch implements Database.Batchable<sObject> {
+    
+    /**
+     * The start method is the first method called in the batch process.
+     * It defines the scope of records (Accounts) that will be processed by the batch job.
+     * @param bc The context of the batch job.
+     * @return A QueryLocator which defines the Account records to be processed.
+     */
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        // Delegates the creation of a QueryLocator to the GetAccountOrdersUtility class.
+        // It retrieves only accounts that have at least one order with the 'Ordered' status.
         return GetAccountOrdersUtility.getAccountQueryLocator();
     }
-​
-    global void execute(Database.BatchableContext bc, List<Account> scope)
-    {
-        //Utility class that calculates Turnover (Gross Revenue) and makes the class shorter
+    
+    /**
+     * The execute method is called by the system to process a batch of records.
+     * @param bc The context of the batch job.
+     * @param scope A list of Account records to be processed in the current batch.
+     */
+    global void execute(Database.BatchableContext bc, List<Account> scope) {
+        // Calls a utility method to calculate and update the turnover for each account in the scope.
+        // This utility class encapsulates the logic, making this class shorter and more maintainable.
         ChiffreAffaireCalculator.calculateChiffreAffaire(scope);
     }
-​
-    global void finish(Database.BatchableContext bc)
-    {
+    
+    /**
+     * The finish method is called after all batches are processed.
+     * It allows for any post-processing, cleanup, or chaining of batch jobs.
+     * @param bc The context of the batch job.
+     */
+    global void finish(Database.BatchableContext bc) {
+        // Logging a debug statement to indicate the batch job has finished.
+        // This is useful for monitoring and debugging the batch job's execution.
         System.debug('Batch job has finished.');
     }
 }
