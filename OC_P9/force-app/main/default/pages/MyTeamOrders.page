@@ -1,4 +1,6 @@
 <apex:page controller="MyTeamOrdersController" >
+    <!-- This Visualforce page displays the sum of all orders.
+         It utilizes the MyTeamOrdersController to fetch and display this sum. -->
     <div>
         <h1>
             Sum of my team orders: <apex:outputText value="{!SumOrders}" />

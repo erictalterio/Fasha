@@ -1,21 +1,32 @@
+/**
+ * Controller class for displaying the total sum of all orders on a Visualforce page.
+ * This class calculates and provides the aggregate total amount from all orders.
+ */
 public without sharing class MyTeamOrdersController {
-    // Holds the sum of all orders
+    
+    /**
+     * Holds the aggregate sum of all orders' total amounts.
+     * Accessible to the Visualforce page using this controller.
+     */
     public Decimal sumOrders {
-        get; // This makes the variable accessible to the page or component that uses this controller
-        private set; // This restricts setting the variable value to within this class only
+        get; // Enables access to the sumOrders property in the Visualforce page
+        private set; // Restricts modification of sumOrders within this class only
     }
 
-    // Constructor for the controller class
+    /**
+     * Constructor: Initializes the controller and calculates the total sum of orders.
+     */
     public MyTeamOrdersController() {
-        // When an instance of this controller is created, calculate the sum of orders
-        sumOrders = calculateSumOrders();
+        sumOrders = calculateSumOrders(); // Calculate the sum of orders upon instantiation
     }
 
-    // A helper method that calculates the total sum of orders
+    /**
+     * Calculates the total sum of the 'TotalAmount' field from all Order records.
+     * 
+     * @return The aggregate sum of the total amounts from all orders.
+     */
     private Decimal calculateSumOrders() {
-        // Perform a SOQL query to calculate the sum of the 'TotalAmount' field across all Order records
         AggregateResult groupedResults = [SELECT SUM(TotalAmount) total FROM Order];
-        // The result of the aggregation (SUM) is retrieved and cast to Decimal type, then returned
-        return (Decimal)groupedResults.get('total');
+        return (Decimal)groupedResults.get('total'); // Convert and return the aggregate sum
     }
 }
