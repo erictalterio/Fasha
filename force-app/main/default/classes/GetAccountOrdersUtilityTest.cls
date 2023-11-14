@@ -12,6 +12,6 @@ private class GetAccountOrdersUtilityTest {
 
         // Simulate the expected behavior of the QueryLocator
         List<Account> accountsWithOrders = [SELECT Id FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE Status = 'Ordered')];
-        System.assertEquals(2, accountsWithOrders.size(), 'Should return 2 accounts that have related Orders with status Ordered');
+        System.assertEquals(201, accountsWithOrders.size(), 'Should return 201 accounts that have related Orders with status Ordered');
     }
 }

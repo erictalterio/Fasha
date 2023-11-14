@@ -1,11 +1,12 @@
 @isTest
+// Utility class for the TestDataFactory
 private class OrderItemTest {
     @isTest static void testOrderItemCreation() {
         // Creating accounts and associated orders
         List<Account> accounts = TestDataFactory.createAccountsAndOrders(201, 1000.0); // Assuming an order total amount of 1000.0
 
         // Creating necessary products and pricebook entries for order items
-        List<Product2> products = TestDataFactory.createProducts(1, true);
+        List<Product2> products = TestDataFactory.createProducts(201, true);
         List<PricebookEntry> pbEntries = TestDataFactory.createPricebookEntries(products, true);
 
         // Retrieve the created orders for these accounts
